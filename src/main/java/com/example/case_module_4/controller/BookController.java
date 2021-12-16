@@ -2,8 +2,10 @@ package com.example.case_module_4.controller;
 
 import com.example.case_module_4.model.Book;
 import com.example.case_module_4.model.Category;
+import com.example.case_module_4.repository.ICategoryRepository;
 import com.example.case_module_4.service.book.IBookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/book")
 @CrossOrigin
 public class BookController {
+    @Autowired
+    private ICategoryRepository categoryRepository;
+
+    @Autowired
+    private IAuthor
+
     @Autowired
     private IBookService bookService;
 
@@ -46,8 +54,14 @@ public class BookController {
     }
 
     @GetMapping("/list/category")
-    public ResponseEntity<Iterable<Book>> findBookByCategory(Pageable pageable, @RequestParam("category") Long id){
-        category = bookService.findById(id);
-        return new ResponseEntity<>(bookService.FindBookByCategory(pageable,category),HttpStatus.OK);
+    public ResponseEntity<Page<Book>> findBookByCategory(Pageable pageable, @RequestParam("category") Long id){
+        Category category=categoryRepository.findById(id).get();
+        Page<Book> books= bookService.findBookByCategory(pageable,category);
+        return new ResponseEntity<>(books,HttpStatus.OK);
+    }
+
+    @GetMapping("/list/author")
+    public ResponseEntity<Page<Book>> findBookByAuthor(Pageable pageable,@RequestParam("author") Long id){
+
     }
 }

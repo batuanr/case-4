@@ -52,7 +52,7 @@ public class BookService implements IBookService{
     }
 
     @Override
-    public Page<Book> FindBookByCategory(Pageable pageable, Category category) {
-        return bookRepository.FindBookByCategory(pageable, category);
+    public Page<Book> findBookByCategory(Pageable pageable, Category category) {
+        return bookRepository.findAllByCategoryList(pageable, category);
     }
 }
