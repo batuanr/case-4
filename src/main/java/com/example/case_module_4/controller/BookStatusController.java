@@ -18,6 +18,7 @@ public class BookStatusController {
 
     @GetMapping("/list")
     public ResponseEntity<Iterable<BookStatus>> listBookStatus(){
+
         return new ResponseEntity<>(bookStatusService.findAll(), HttpStatus.OK);
     }
 
