@@ -104,4 +104,9 @@ public class BookController {
         Page<Book> listBook = bookService.findAllByNameContaining(pageable, bookName);
         return new ResponseEntity<>(listBook, HttpStatus.OK);
     }
+
+    @GetMapping("/top4book")
+    public ResponseEntity<Iterable<Book>> findTop4Book(){
+        return new ResponseEntity<>(bookService.findTop4Book(),HttpStatus.OK);
+    }
 }

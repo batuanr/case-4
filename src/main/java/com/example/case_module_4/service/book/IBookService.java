@@ -12,4 +12,5 @@ public interface IBookService extends IGeneralService<Book> {
     Page<Book> findAllByNameContaining (Pageable pageable,String name);
     Page<Book> findAllByAuthor(Pageable pageable, Author author);
     Page<Book> findBookByCategory(Pageable pageable, Category category);
+    Iterable<Book> findTop4Book( );
 }
