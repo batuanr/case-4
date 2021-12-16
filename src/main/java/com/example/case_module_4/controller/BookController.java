@@ -1,9 +1,13 @@
 package com.example.case_module_4.controller;
 
+import com.example.case_module_4.model.Author;
 import com.example.case_module_4.model.Book;
 import com.example.case_module_4.model.Category;
+import com.example.case_module_4.repository.IAuthorRepository;
 import com.example.case_module_4.repository.ICategoryRepository;
+import com.example.case_module_4.service.authorService.IAuthorService;
 import com.example.case_module_4.service.book.IBookService;
+import com.example.case_module_4.service.category.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,13 +18,13 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/book")
-@CrossOrigin
+@CrossOrigin("*")
 public class BookController {
     @Autowired
-    private ICategoryRepository categoryRepository;
+    private ICategoryService categoryService;
 
     @Autowired
-    private IAuthor
+    private IAuthorService authorService;
 
     @Autowired
     private IBookService bookService;
@@ -55,13 +59,21 @@ public class BookController {
 
     @GetMapping("/list/category")
     public ResponseEntity<Page<Book>> findBookByCategory(Pageable pageable, @RequestParam("category") Long id){
-        Category category=categoryRepository.findById(id).get();
+        Category category=categoryService.findById(id).get();
         Page<Book> books= bookService.findBookByCategory(pageable,category);
         return new ResponseEntity<>(books,HttpStatus.OK);
     }
 
     @GetMapping("/list/author")
     public ResponseEntity<Page<Book>> findBookByAuthor(Pageable pageable,@RequestParam("author") Long id){
+        Author author = authorService.findById(id).get();
+        Page<Book> books=bookService.findAllByAuthor(pageable,author);
+        return new ResponseEntity<>(books,HttpStatus.OK);
+    }
 
+    @GetMapping("/findbyname")
+    public ResponseEntity<Page<Book>> findBookByName(Pageable pageable,@RequestParam("book") String bookName){
+        Page<Book> books=bookService.findAllByNameContaining(pageable,bookName);
+        return new ResponseEntity<>(books,HttpStatus.OK);
     }
 }
