@@ -19,39 +19,39 @@ public class CartController {
     private CartService cartService;
 
     @GetMapping("/list")
-    public ResponseEntity<Iterable<Cart>> listBookStatus(){
-
-        return new ResponseEntity<>(cartService.findAll(), HttpStatus.OK);
+    public ResponseEntity<Iterable<Cart>> getAll(){
+        Iterable<Cart> carts = cartService.findAll();
+        return new ResponseEntity<>(carts, HttpStatus.OK);
     }
-
     @PostMapping("/create")
     public ResponseEntity<Cart> create(@RequestBody Cart cart){
         cartService.save(cart);
-        return new ResponseEntity<>(cart,HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Cart> find(@PathVariable Long id){
-        Optional<Cart> cartOptional=cartService.findById(id);
+    @GetMapping("/findOne/{id}")
+    public ResponseEntity<Cart> findOne(@PathVariable Long id){
+        Optional<Cart> cartOptional = cartService.findById(id);
         if (!cartOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(cartOptional.get(),HttpStatus.OK);
+        return new ResponseEntity<>(cartOptional.get(), HttpStatus.OK);
     }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Cart> delete(@PathVariable Long id){
-        cartService.remove(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @PutMapping("/update")
-    public ResponseEntity<Cart> update(@RequestBody Cart cart){
+    @PutMapping("/edit")
+    public ResponseEntity<Cart> edit(@RequestBody Cart cart){
         Optional<Cart> cartOptional = cartService.findById(cart.getId());
         if (!cartOptional.isPresent()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         cartService.save(cart);
-        return new ResponseEntity<>(cartOptional.get(),HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Cart> delete(@PathVariable Long id){
+        Optional<Cart> cartOptional = cartService.findById(id);
+        if (!cartOptional.isPresent()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        cartService.remove(id);
+        return new ResponseEntity<>(cartOptional.get(), HttpStatus.NO_CONTENT);
     }
 }

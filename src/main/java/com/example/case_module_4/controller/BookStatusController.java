@@ -13,47 +13,47 @@ import java.util.Optional;
 
 @Controller
 @CrossOrigin("*")
-@RequestMapping("/boookStatus")
+@RequestMapping("/bookStatus")
 public class BookStatusController {
 
     @Autowired
     private IBookStatusService bookStatusService;
 
     @GetMapping("/list")
-    public ResponseEntity<Iterable<BookStatus>> listBookStatus(){
-
-        return new ResponseEntity<>(bookStatusService.findAll(), HttpStatus.OK);
+    public ResponseEntity<Iterable<BookStatus>> getAll(){
+        Iterable<BookStatus> bookStatuses = bookStatusService.findAll();
+        return new ResponseEntity<>(bookStatuses, HttpStatus.OK);
     }
-
     @PostMapping("/create")
     public ResponseEntity<BookStatus> create(@RequestBody BookStatus bookStatus){
         bookStatusService.save(bookStatus);
-        return new ResponseEntity<>(bookStatus,HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<BookStatus> find(@PathVariable Long id){
-        Optional<BookStatus> bookStatusOptional=bookStatusService.findById(id);
+    @GetMapping("/findOne/{id}")
+    public ResponseEntity<BookStatus> findOne(@PathVariable Long id){
+        Optional<BookStatus> bookStatusOptional = bookStatusService.findById(id);
         if (!bookStatusOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(bookStatusOptional.get(),HttpStatus.OK);
+        return new ResponseEntity<>(bookStatusOptional.get(), HttpStatus.OK);
     }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<BookStatus> delete(@PathVariable Long id){
-        bookStatusService.remove(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @PutMapping("/update")
-    public ResponseEntity<BookStatus> update(@RequestBody BookStatus bookStatus){
+    @PutMapping("/edit")
+    public ResponseEntity<BookStatus> edit(@RequestBody BookStatus bookStatus){
         Optional<BookStatus> bookStatusOptional = bookStatusService.findById(bookStatus.getId());
         if (!bookStatusOptional.isPresent()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         bookStatusService.save(bookStatus);
-        return new ResponseEntity<>(bookStatus,HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<BookStatus> delete(@PathVariable Long id){
+        Optional<BookStatus> bookStatusOptional = bookStatusService.findById(id);
+        if (!bookStatusOptional.isPresent()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        bookStatusService.remove(id);
+        return new ResponseEntity<>(bookStatusOptional.get(), HttpStatus.NO_CONTENT);
     }
 
 }
