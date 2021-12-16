@@ -2,8 +2,11 @@ package com.example.case_module_4.controller;
 
 import com.example.case_module_4.model.BookStatus;
 import com.example.case_module_4.model.Cart;
+import com.example.case_module_4.model.User;
 import com.example.case_module_4.service.cart.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -53,5 +56,11 @@ public class CartController {
         }
         cartService.remove(id);
         return new ResponseEntity<>(cartOptional.get(), HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/findByUser")
+    public ResponseEntity<Page<Cart>> findByUser(Pageable pageable, @RequestBody User user){
+        Page<Cart> carts=cartService.findAllByUser(pageable,user);
+        return new ResponseEntity<>(carts,HttpStatus.OK);
     }
 }
