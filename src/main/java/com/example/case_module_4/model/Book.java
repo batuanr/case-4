@@ -15,17 +15,17 @@ public class Book {
     private String name;
     private int quantity;
     @ManyToOne
+    private Author author;
+    @OneToMany(mappedBy = "book")
+    private Set<Comment> comments;
+
+    @ManyToOne
     private BookStatus bookStatus;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "book_category",
             joinColumns = {@JoinColumn(name = "book_id")},
             inverseJoinColumns = {@JoinColumn(name = "category_id")})
     private Set<Category> categoryList;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "book_cart",
-            joinColumns = {@JoinColumn(name = "book_id")},
-            inverseJoinColumns = {@JoinColumn(name = "cart_id")})
-    private Set<Cart> cartList;
     private String description;
     private String image;
 }

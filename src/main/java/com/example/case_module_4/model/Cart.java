@@ -14,9 +14,9 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date borrowDate;
-    private Date repaymentDate;
-    @OneToOne
+    private Date repayDate;
+    @ManyToOne
     private User user;
-    @ManyToMany(mappedBy = "cartList")
-    private Set<Book> bookList;
+    @OneToMany(mappedBy = "cart")
+    private Set<CartDetail> cartDetails;
 }
