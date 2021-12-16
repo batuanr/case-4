@@ -34,7 +34,7 @@ public class CategoryController {
         return new ResponseEntity<>(category,HttpStatus.CREATED);
     }
 
-    @PutMapping("/edit")
+    @PutMapping("/edit/{id}")
     public ResponseEntity<Category> updateCategoryById(@PathVariable Long id, @RequestBody Category category) {
         Optional<Category> categoryOptional = categoryService.findById(id);
         if (!categoryOptional.isPresent()) {
