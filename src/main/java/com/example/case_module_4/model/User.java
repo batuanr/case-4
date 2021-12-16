@@ -17,8 +17,11 @@ public class User {
 
 
     private String password;
+    @OneToMany(mappedBy = "user")
+    private Set<Comment> comments;
 
-
+    @OneToMany(mappedBy = "user")
+    private Set<Cart> carts;
     private String fullName;
     private String image;
 
