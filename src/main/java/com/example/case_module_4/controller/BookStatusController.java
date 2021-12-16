@@ -28,7 +28,7 @@ public class BookStatusController {
     @PostMapping("/create")
     public ResponseEntity<BookStatus> create(@RequestBody BookStatus bookStatus){
         bookStatusService.save(bookStatus);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(bookStatus,HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
