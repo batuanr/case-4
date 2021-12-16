@@ -43,4 +43,12 @@ public class CommentController {
         commentService.remove(id);
         return new ResponseEntity<>(commentOptional.get(),HttpStatus.OK);
     }
+   @GetMapping("/find/{id}")
+    public ResponseEntity<Comment> findCommentById(@PathVariable Long id){
+        Optional<Comment> commentOptional = commentService.findById(id);
+        if (!commentOptional.isPresent()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(commentOptional.get(),HttpStatus.OK);
+   }
 }
