@@ -35,7 +35,7 @@ public class BookController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Book> createNewBook(Book book){
+    public ResponseEntity<Book> createNewBook(@RequestBody Book book){
         bookService.save(book);
         return new ResponseEntity<>(book,HttpStatus.CREATED);
     }

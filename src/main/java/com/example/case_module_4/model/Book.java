@@ -1,6 +1,7 @@
 package com.example.case_module_4.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
@@ -17,10 +18,9 @@ public class Book {
     private String name;
     private int quantity;
     @ManyToOne
-    @JsonManagedReference
     private Author author;
     @OneToMany(mappedBy = "book")
-    @JsonBackReference
+    @JsonIgnore
     private Set<Comment> comments;
 
     @ManyToOne
@@ -29,7 +29,6 @@ public class Book {
     @JoinTable(name = "book_category",
             joinColumns = {@JoinColumn(name = "book_id")},
             inverseJoinColumns = {@JoinColumn(name = "category_id")})
-    @JsonManagedReference
     private Set<Category> categoryList;
     private String description;
     private String image;
