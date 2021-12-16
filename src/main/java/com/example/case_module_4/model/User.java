@@ -1,5 +1,6 @@
 package com.example.case_module_4.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,9 +19,11 @@ public class User {
 
     private String password;
     @OneToMany(mappedBy = "user")
+    @JsonBackReference
     private Set<Comment> comments;
 
     @OneToMany(mappedBy = "user")
+    @JsonBackReference
     private Set<Cart> carts;
     private String fullName;
     private String image;

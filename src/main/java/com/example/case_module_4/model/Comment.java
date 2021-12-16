@@ -15,4 +15,5 @@ public class Comment {
     private Book book;
     @ManyToOne
     private User user;
+
 }

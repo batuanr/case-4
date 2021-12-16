@@ -1,5 +1,6 @@
 package com.example.case_module_4.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,5 +19,6 @@ public class Cart {
     @ManyToOne
     private User user;
     @OneToMany(mappedBy = "cart")
+    @JsonBackReference
     private Set<CartDetail> cartDetails;
 }

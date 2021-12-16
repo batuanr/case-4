@@ -1,5 +1,6 @@
 package com.example.case_module_4.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -13,5 +14,6 @@ public class Author {
     private Long id;
     private String authorName;
     @OneToMany(mappedBy = "author")
+    @JsonBackReference
     private Set<Book> books;
 }
