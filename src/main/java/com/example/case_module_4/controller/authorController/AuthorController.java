@@ -23,7 +23,7 @@ public class AuthorController {
         if (authorList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(authorList,HttpStatus.OK);
+        return new ResponseEntity<>(authorList, HttpStatus.OK);
     }
 
     @PostMapping("/create")
@@ -39,7 +39,36 @@ public class AuthorController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         authorService.remove(id);
-        return new ResponseEntity<>(author.get(),HttpStatus.OK);
+        return new ResponseEntity<>(author.get(), HttpStatus.OK);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Author> editAuthor(@RequestBody Author author) {
+        Optional<Author> authorOptional = authorService.findById(author.getId());
+        if (!authorOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        author.setId(authorOptional.get().getId());
+        authorService.save(author);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/findOne/{id}")
+    public ResponseEntity<Author> findAuthorById(@PathVariable Long id) {
+        Optional<Author> authorOptional = authorService.findById(id);
+        if (!authorOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(authorOptional.get(), HttpStatus.OK);
+    }
+
+    @GetMapping("/findByName/{authorName}")
+    public ResponseEntity<Iterable<Author>> findAuthorByAuthorName(@PathVariable String authorName) {
+        List<Author> authorList = (List<Author>) authorService.findAuthorByAuthorName(authorName);
+        if (authorList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(authorList, HttpStatus.OK);
     }
 }
 

@@ -17,4 +17,6 @@ public interface IAuthorService extends IGeneralService<Author> {
 
     @Override
     void remove(Long id);
+
+    Iterable<Author> findAuthorByAuthorName(String authorName);
 }

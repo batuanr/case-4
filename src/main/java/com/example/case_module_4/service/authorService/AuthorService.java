@@ -31,4 +31,9 @@ public class AuthorService implements IAuthorService {
     public void remove(Long id) {
         authorRepository.deleteById(id);
     }
+
+    @Override
+    public Iterable<Author> findAuthorByAuthorName(String authorName) {
+       return authorRepository.findAuthorByAuthorName(authorName);
+    }
 }
