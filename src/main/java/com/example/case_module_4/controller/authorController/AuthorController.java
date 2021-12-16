@@ -42,13 +42,12 @@ public class AuthorController {
         return new ResponseEntity<>(author.get(), HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/update")
     public ResponseEntity<Author> editAuthor(@RequestBody Author author) {
         Optional<Author> authorOptional = authorService.findById(author.getId());
         if (!authorOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        author.setId(authorOptional.get().getId());
         authorService.save(author);
         return new ResponseEntity<>(HttpStatus.OK);
     }

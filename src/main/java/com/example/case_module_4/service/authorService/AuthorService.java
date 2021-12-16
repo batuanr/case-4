@@ -34,6 +34,6 @@ public class AuthorService implements IAuthorService {
 
     @Override
     public Iterable<Author> findAuthorByAuthorName(String authorName) {
-       return authorRepository.findAuthorByAuthorName(authorName);
+       return authorRepository.findAuthorByAuthorNameContaining(authorName);
     }
 }

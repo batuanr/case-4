@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IAuthorRepository extends JpaRepository<Author,Long> {
-Iterable<Author> findAuthorByAuthorName(String authorName);
+Iterable<Author> findAuthorByAuthorNameContaining(String authorName);
 }
