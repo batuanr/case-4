@@ -31,13 +31,18 @@ public class CategoryController {
     @PostMapping("/create")
     public ResponseEntity<Category> createNewCategory(@RequestBody Category category) {
         categoryService.save(category);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(category,HttpStatus.CREATED);
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<Category> updateCategoryById( @RequestBody Category category) {
-       categoryService.save(category);
-       return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Category> updateCategoryById(@PathVariable Long id, @RequestBody Category category) {
+        Optional<Category> categoryOptional = categoryService.findById(id);
+        if (!categoryOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        category.setId(categoryOptional.get().getId());
+        categoryService.save(category);
+        return new ResponseEntity<>(category, HttpStatus.OK);
 
     }
 
@@ -54,11 +59,12 @@ public class CategoryController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Category> deleteCategoryById(@PathVariable Long id) {
         Optional<Category> categoryOptional = categoryService.findById(id);
-        if (!categoryOptional.isPresent()){
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (!categoryOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }  else {
+            categoryService.remove(id);
+            return new ResponseEntity<>(categoryOptional.get(), HttpStatus.OK);
         }
-        categoryService.remove(id);
-        return  new ResponseEntity<>(categoryOptional.get(),HttpStatus.OK);
     }
 
 }
