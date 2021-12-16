@@ -55,4 +55,11 @@ public class BookService implements IBookService{
     public Page<Book> findBookByCategory(Pageable pageable, Category category) {
         return bookRepository.findAllByCategoryList(pageable, category);
     }
+
+    @Override
+    public Iterable<Book> findTop4Book() {
+        return bookRepository.findTopByIdOrderByIdDesc();
+    }
+
+
 }
