@@ -3,15 +3,18 @@ package com.example.case_module_4.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.Date;
 
 @Entity
 @Data
-public class Author {
+public class CartDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String authorName;
-    @OneToMany(mappedBy = "author")
-    private Set<Book> books;
+    @ManyToOne
+    private Book book;
+    @ManyToOne
+    private Cart cart;
+    private Boolean status = false;
+    private Date repayDate;
 }
