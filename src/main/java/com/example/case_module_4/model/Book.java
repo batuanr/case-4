@@ -17,6 +17,7 @@ public class Book {
     private Long id;
     private String name;
     private int quantity;
+    private int countBorrowed;
     @ManyToOne
     private Author author;
     @OneToMany(mappedBy = "book")

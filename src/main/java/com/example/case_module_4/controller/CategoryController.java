@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/categories")
-@CrossOrigin
+@CrossOrigin("*")
 public class CategoryController {
     @Autowired
     private ICategoryService categoryService;

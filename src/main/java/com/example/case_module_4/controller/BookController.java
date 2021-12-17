@@ -109,4 +109,9 @@ public class BookController {
     public ResponseEntity<Iterable<Book>> findTop4Book(){
         return new ResponseEntity<>(bookService.findTop4Book(),HttpStatus.OK);
     }
+
+    @GetMapping("/bestBook")
+    public ResponseEntity<Book> bestBook(){
+        return new ResponseEntity<>(bookService.findTopBook().get(),HttpStatus.OK);
+    }
 }
