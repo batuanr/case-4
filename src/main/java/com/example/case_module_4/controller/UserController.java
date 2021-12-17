@@ -1,6 +1,8 @@
 package com.example.case_module_4.controller;
 
+import com.example.case_module_4.model.Role;
 import com.example.case_module_4.model.User;
+import com.example.case_module_4.service.role.IRoleService;
 import com.example.case_module_4.service.user.IUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @CrossOrigin("*")
@@ -22,6 +26,8 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     Environment env;
+    @Autowired
+    IRoleService roleService;
     @Autowired
     IUserService userService;
     @GetMapping("/list")
@@ -31,6 +37,10 @@ public class UserController {
     }
     @PostMapping("/register")
     public ResponseEntity<User> create(@RequestBody User user){
+        Set<Role> roleSet = new HashSet<>();
+        Role role = roleService.findByName("ROLE_USER");
+        roleSet.add(role);
+        user.setRoles(roleSet);
         userService.save(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
