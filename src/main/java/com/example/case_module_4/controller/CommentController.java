@@ -1,5 +1,6 @@
 package com.example.case_module_4.controller;
 
+import com.example.case_module_4.model.Book;
 import com.example.case_module_4.model.Comment;
 import com.example.case_module_4.service.comment.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,12 @@ public class CommentController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(commentOptional.get(),HttpStatus.OK);
+   }
+   @GetMapping("/findBook/{id}")
+    public ResponseEntity<Iterable<Comment>> findCommentByBook(@PathVariable Long id){
+//        Iterable<Comment> commentIterable = commentService.findAllByBook(book);
+       Iterable<Comment> comments=commentService.findAllByBook(id);
+       return new ResponseEntity<>(comments,HttpStatus.OK);
    }
 
 }

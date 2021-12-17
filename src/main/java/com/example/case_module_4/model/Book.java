@@ -33,4 +33,5 @@ public class Book {
     private Set<Category> categoryList;
     private String description;
     private String image;
+
 }
