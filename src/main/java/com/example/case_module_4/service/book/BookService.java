@@ -61,5 +61,20 @@ public class BookService implements IBookService{
         return bookRepository.findTopByIdOrderByIdDesc();
     }
 
+    @Override
+    public void borrowBook(Long id) {
+        bookRepository.borrowBook(id);
+    }
+
+    @Override
+    public void repayBook(Long id) {
+        bookRepository.repayBook(id);
+    }
+
+    @Override
+    public Optional<Book> findTopBook() {
+        return bookRepository.findTopBook();
+    }
+
 
 }

@@ -1,9 +1,7 @@
 package com.example.case_module_4.controller;
 
-import com.example.case_module_4.model.BookStatus;
-import com.example.case_module_4.model.Cart;
-import com.example.case_module_4.model.CartDetail;
-import com.example.case_module_4.model.User;
+import com.example.case_module_4.model.*;
+import com.example.case_module_4.service.book.IBookService;
 import com.example.case_module_4.service.cartDetail.ICartDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +21,9 @@ public class CartDetailController {
     @Autowired
     private ICartDetailService cartDetailService;
 
+    @Autowired
+    private IBookService bookService;
+
     @GetMapping("/list")
     public ResponseEntity<Iterable<CartDetail>> getAll(){
         Iterable<CartDetail> cartDetails = cartDetailService.findAll();
@@ -31,6 +32,7 @@ public class CartDetailController {
     @PostMapping("/create")
     public ResponseEntity<BookStatus> create(@RequestBody CartDetail bookStatus){
         cartDetailService.save(bookStatus);
+        bookService.borrowBook(bookStatus.getBook().getId());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     @GetMapping("/findOne/{id}")
@@ -56,6 +58,7 @@ public class CartDetailController {
         if (!cartDetailOptional.isPresent()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        bookService.repayBook(cartDetailOptional.get().getBook().getId());
         cartDetailService.remove(id);
         return new ResponseEntity<>(cartDetailOptional.get(), HttpStatus.NO_CONTENT);
     }
@@ -65,4 +68,5 @@ public class CartDetailController {
         Page<CartDetail> cartDetails=cartDetailService.findAllByCart(pageable,cart);
         return new ResponseEntity<>(cartDetails,HttpStatus.OK);
     }
+
 }
