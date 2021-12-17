@@ -1,5 +1,6 @@
 package com.example.case_module_4.service.comment;
 
+import com.example.case_module_4.model.Book;
 import com.example.case_module_4.model.Comment;
 import com.example.case_module_4.repository.ICommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,10 @@ public class CommentService implements ICommentService{
     @Override
     public void remove(Long id) {
         commentRepository.deleteById(id);
+    }
+
+    @Override
+    public Iterable<Comment> findAllByBook(Long id) {
+        return commentRepository.findAllByBookId(id);
     }
 }
