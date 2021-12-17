@@ -4,6 +4,8 @@ import com.example.case_module_4.model.Book;
 import com.example.case_module_4.model.Comment;
 import com.example.case_module_4.repository.ICommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -36,5 +38,10 @@ public class CommentService implements ICommentService{
     @Override
     public Iterable<Comment> findAllByBook(Long id) {
         return commentRepository.findAllByBookId(id);
+    }
+
+    @Override
+    public Page<Comment> findAll(Pageable pageable) {
+        return commentRepository.findAll(pageable);
     }
 }

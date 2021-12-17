@@ -4,6 +4,9 @@ import com.example.case_module_4.model.Book;
 import com.example.case_module_4.model.Comment;
 import com.example.case_module_4.service.comment.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -58,6 +61,12 @@ public class CommentController {
 //        Iterable<Comment> commentIterable = commentService.findAllByBook(book);
        Iterable<Comment> comments=commentService.findAllByBook(id);
        return new ResponseEntity<>(comments,HttpStatus.OK);
+   }
+
+   @GetMapping("/loadPage")
+    public ResponseEntity<Page<Comment>> loadPage(@PageableDefault(5)Pageable pageable){
+        Page<Comment> commentPage = commentService.findAll(pageable);
+        return new ResponseEntity<>(commentPage,HttpStatus.OK);
    }
 
 }
