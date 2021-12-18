@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -43,6 +44,11 @@ public class BookController {
     @GetMapping("/list")
     public ResponseEntity<Iterable<Book>> showBookList() {
         return new ResponseEntity<>(bookService.findAll(), HttpStatus.OK);
+    }
+    @GetMapping
+    private ResponseEntity<Page<Book>> bookList(@PageableDefault(value = 12) Pageable pageable){
+        Page<Book> books = bookService.findAll(pageable);
+        return  new ResponseEntity<>(books, HttpStatus.OK);
     }
 
     @PostMapping("/create")
@@ -86,21 +92,21 @@ public class BookController {
     }
 
     @GetMapping("/list/category")
-    public ResponseEntity<Page<Book>> findBookByCategory(Pageable pageable, @RequestBody Category category) {
+    public ResponseEntity<Page<Book>> findBookByCategory(@PageableDefault(value = 12) Pageable pageable, @RequestBody Category category) {
 //        Category category=categoryService.findById(id).get();
         Page<Book> books = bookService.findBookByCategory(pageable, category);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
     @GetMapping("/list/author")
-    public ResponseEntity<Page<Book>> findBookByAuthor(Pageable pageable, @RequestBody Author author) {
+    public ResponseEntity<Page<Book>> findBookByAuthor(@PageableDefault(value = 12) Pageable pageable, @RequestBody Author author) {
 //        Author author = authorService.findById(id).get();
         Page<Book> bookList = bookService.findAllByAuthor(pageable, author);
         return new ResponseEntity<>(bookList, HttpStatus.OK);
     }
 
     @GetMapping("/findbyname")
-    public ResponseEntity<Page<Book>> findBookByName(Pageable pageable, @RequestParam("book") String bookName) {
+    public ResponseEntity<Page<Book>> findBookByName(@PageableDefault(value = 12) Pageable pageable, @RequestParam("book") String bookName) {
         Page<Book> listBook = bookService.findAllByNameContaining(pageable, bookName);
         return new ResponseEntity<>(listBook, HttpStatus.OK);
     }
