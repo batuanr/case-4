@@ -80,8 +80,29 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         user.setId(userOptional.get().getId());
+        user.setUsername(userOptional.get().getUsername());
+        user.setImage(userOptional.get().getImage());
         userService.save(user);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @PutMapping("/editPhoto/{id}")
+    public ResponseEntity<User> editPhoto(@PathVariable Long id, @RequestPart("file") MultipartFile file){
+        Optional<User> userOptional = userService.findById(id);
+        if (!userOptional.isPresent()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        if (!file.isEmpty()){
+            String file1 = file.getOriginalFilename();
+            String fileUpload = env.getProperty("upload.path");
+            userOptional.get().setImage(file1);
+            try {
+                FileCopyUtils.copy(file.getBytes(), new File(fileUpload + file1));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        userService.save(userOptional.get());
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<User> delete(@PathVariable Long id){
