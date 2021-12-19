@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 public interface ICommentService extends IGeneralService<Comment> {
-    Iterable<Comment> findAllByBook(Long id);
+    Iterable<Comment> findAllByBook(Book book);
     Page<Comment> findAll(Pageable pageable);
+    Page<Comment> findAllByBook(Book book,Pageable pageable);
 }
