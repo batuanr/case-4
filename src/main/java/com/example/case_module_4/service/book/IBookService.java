@@ -18,4 +18,6 @@ public interface IBookService extends IGeneralService<Book> {
     void borrowBook(Long id);
     void repayBook(Long id);
     Optional<Book> findTopBook();
+    Page<Book> findAllByOrderByIdDesc(Pageable pageable);
+    Page<Book> findTop10ByOrderByLevelDesc(Pageable pageable);
 }

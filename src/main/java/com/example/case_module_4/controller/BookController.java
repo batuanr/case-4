@@ -47,7 +47,12 @@ public class BookController {
     }
     @GetMapping
     private ResponseEntity<Page<Book>> bookList(@PageableDefault(value = 12) Pageable pageable){
-        Page<Book> books = bookService.findAll(pageable);
+        Page<Book> books = bookService.findAllByOrderByIdDesc(pageable);
+        return  new ResponseEntity<>(books, HttpStatus.OK);
+    }
+    @GetMapping("/demo")
+    private ResponseEntity<Page<Book>> demo( Pageable pageable){
+        Page<Book> books = bookService.findTop10ByOrderByLevelDesc(pageable);
         return  new ResponseEntity<>(books, HttpStatus.OK);
     }
 

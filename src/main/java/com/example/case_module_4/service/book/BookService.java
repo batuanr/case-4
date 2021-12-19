@@ -76,5 +76,13 @@ public class BookService implements IBookService{
         return bookRepository.findTopBook();
     }
 
+    @Override
+    public Page<Book> findAllByOrderByIdDesc(Pageable pageable) {
+        return bookRepository.findAllByOrderByIdDesc(pageable);
+    }
 
+    @Override
+    public Page<Book> findTop10ByOrderByLevelDesc(Pageable pageable) {
+        return bookRepository.findTop4ByOrderByIdDesc(pageable);
+    }
 }
