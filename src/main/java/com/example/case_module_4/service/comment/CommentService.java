@@ -36,12 +36,22 @@ public class CommentService implements ICommentService{
     }
 
     @Override
-    public Iterable<Comment> findAllByBook(Long id) {
-        return commentRepository.findAllByBookId(id);
+    public Iterable<Comment> findAllByBook(Book book) {
+        return commentRepository.findAllByBook(book);
     }
 
     @Override
     public Page<Comment> findAll(Pageable pageable) {
         return commentRepository.findAll(pageable);
     }
+
+    @Override
+    public Page<Comment> findAllByBook(Book book, Pageable pageable) {
+        return commentRepository.findAllByBookOrderByIdDesc(book,pageable);
+    }
+
+//    @Override
+//    public Page<Comment> findAllByBookId(Long id,Pageable pageable) {
+//        return commentRepository.findAllByBook(id,pageable);
+//    }
 }
