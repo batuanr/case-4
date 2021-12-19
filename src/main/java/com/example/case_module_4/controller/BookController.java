@@ -88,19 +88,20 @@ public class BookController {
 
     @GetMapping("/find/{id}")
     public ResponseEntity<Book> findBookById(@PathVariable Long id) {
+
         return new ResponseEntity<>(bookService.findById(id).get(), HttpStatus.OK);
     }
 
-    @GetMapping("/list/category")
-    public ResponseEntity<Page<Book>> findBookByCategory(@PageableDefault(value = 12) Pageable pageable, @RequestBody Category category) {
-//        Category category=categoryService.findById(id).get();
+    @GetMapping("/list/category/{id}")
+    public ResponseEntity<Page<Book>> findBookByCategory(@PathVariable Long id, @PageableDefault(value = 12) Pageable pageable) {
+        Category category=categoryService.findById(id).get();
         Page<Book> books = bookService.findBookByCategory(pageable, category);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
-    @GetMapping("/list/author")
-    public ResponseEntity<Page<Book>> findBookByAuthor(@PageableDefault(value = 12) Pageable pageable, @RequestBody Author author) {
-//        Author author = authorService.findById(id).get();
+    @GetMapping("/list/author/{id}")
+    public ResponseEntity<Page<Book>> findBookByAuthor(@PathVariable Long id,@PageableDefault(value = 12) Pageable pageable) {
+        Author author = authorService.findById(id).get();
         Page<Book> bookList = bookService.findAllByAuthor(pageable, author);
         return new ResponseEntity<>(bookList, HttpStatus.OK);
     }
