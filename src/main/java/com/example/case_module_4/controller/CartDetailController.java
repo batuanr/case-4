@@ -2,10 +2,12 @@ package com.example.case_module_4.controller;
 
 import com.example.case_module_4.model.*;
 import com.example.case_module_4.service.book.IBookService;
+import com.example.case_module_4.service.cart.ICartService;
 import com.example.case_module_4.service.cartDetail.ICartDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,8 @@ public class CartDetailController {
 
     @Autowired
     private IBookService bookService;
+    @Autowired
+    ICartService cartService;
 
     @GetMapping("/list")
     public ResponseEntity<Iterable<CartDetail>> getAll(){
@@ -63,9 +67,10 @@ public class CartDetailController {
         return new ResponseEntity<>(cartDetailOptional.get(), HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/findByCart")
-    public ResponseEntity<Page<CartDetail>> findByUser(Pageable pageable, @RequestBody Cart cart){
-        Page<CartDetail> cartDetails=cartDetailService.findAllByCart(pageable,cart);
+    @GetMapping("/findByCart/{id}")
+    public ResponseEntity<Iterable<CartDetail>> findByUser(@PathVariable Long id){
+        Cart cart = cartService.findById(id).get();
+        Iterable<CartDetail> cartDetails=cartDetailService.findAllByCart(cart);
         return new ResponseEntity<>(cartDetails,HttpStatus.OK);
     }
 

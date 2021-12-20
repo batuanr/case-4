@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ICartDetailRepository extends JpaRepository<CartDetail,Long> {
-    Page<CartDetail> findAllByCart(Pageable pageable, Cart cart);
+    Iterable<CartDetail> findAllByCart( Cart cart);
 }
