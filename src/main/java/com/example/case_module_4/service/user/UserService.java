@@ -1,11 +1,14 @@
 package com.example.case_module_4.service.user;
 
 
+import com.example.case_module_4.model.Role;
 import com.example.case_module_4.model.User;
 import com.example.case_module_4.model.entity.UserPrinciple;
 import com.example.case_module_4.repository.IUserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -54,5 +57,10 @@ public class UserService implements IUserService {
     @Override
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public Page<User> findAllByRoles(Pageable pageable, Role role) {
+        return userRepository.findAllByRoles(pageable,role);
     }
 }

@@ -8,6 +8,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
@@ -79,6 +82,7 @@ public class UserController {
         if (!userOptional.isPresent()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        user.setRoles(userOptional.get().getRoles());
         user.setId(userOptional.get().getId());
         user.setUsername(userOptional.get().getUsername());
         user.setImage(userOptional.get().getImage());
@@ -112,5 +116,12 @@ public class UserController {
         }
         userService.remove(id);
         return new ResponseEntity<>(userOptional.get(), HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/findManager")
+    public ResponseEntity<Page<User>> findUserByRole(@PageableDefault(value = 10)Pageable pageable){
+        Optional<Role> roleOptional=roleService.findById(Long.valueOf(2));
+        Page<User> users=userService.findAllByRoles(pageable,roleOptional.get());
+        return new ResponseEntity<>(users,HttpStatus.OK);
     }
 }
