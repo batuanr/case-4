@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -17,7 +18,8 @@ public interface IBookRepository extends JpaRepository<Book,Long> {
    Page<Book> findAllByNameContaining(Pageable pageable,String name);
    Page<Book> findAllByAuthor(Pageable pageable, Author author);
    Page<Book> findAllByCategoryList(Pageable pageable,Category category);
-
+   Page<Book> findAllByOrderByIdDesc(Pageable pageable);
+   Page<Book> findTop4ByOrderByIdDesc(Pageable pageable);
    @Query(value = "select * from book  order by id desc limit 4",nativeQuery = true)
    Iterable<Book> findTopByIdOrderByIdDesc();
 

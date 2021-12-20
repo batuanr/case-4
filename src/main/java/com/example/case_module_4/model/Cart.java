@@ -17,6 +17,7 @@ public class Cart {
     private Long id;
     private Date borrowDate;
     private Date repayDate;
+    private Boolean status;
     @ManyToOne
     private User user;
     @OneToMany(mappedBy = "cart")

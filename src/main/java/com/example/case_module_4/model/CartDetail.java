@@ -15,6 +15,4 @@ public class CartDetail {
     private Book book;
     @ManyToOne
     private Cart cart;
-    private Boolean status = false;
-    private Date repayDate;
 }

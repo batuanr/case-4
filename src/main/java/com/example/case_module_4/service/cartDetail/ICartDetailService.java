@@ -8,6 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ICartDetailService extends IGeneralService<CartDetail> {
-    Page<CartDetail> findAllByCart(Pageable pageable, Cart cart);
+    Iterable<CartDetail> findAllByCart( Cart cart);
 
 }

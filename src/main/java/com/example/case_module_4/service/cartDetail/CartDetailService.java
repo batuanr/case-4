@@ -37,7 +37,7 @@ public class CartDetailService implements ICartDetailService{
     }
 
     @Override
-    public Page<CartDetail> findAllByCart(Pageable pageable, Cart cart) {
-        return cartDetailRepository.findAllByCart(pageable,cart);
+    public Iterable<CartDetail> findAllByCart(Cart cart) {
+        return cartDetailRepository.findAllByCart(cart);
     }
 }
