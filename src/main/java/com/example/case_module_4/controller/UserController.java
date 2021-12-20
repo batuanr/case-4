@@ -6,6 +6,7 @@ import com.example.case_module_4.service.role.IRoleService;
 import com.example.case_module_4.service.user.IUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
@@ -13,10 +14,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
@@ -33,6 +36,10 @@ public class UserController {
     IRoleService roleService;
     @Autowired
     IUserService userService;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @GetMapping("/list")
     public ResponseEntity<Iterable<User>> getAll(){
         Iterable<User> users = userService.findAll();
@@ -44,6 +51,7 @@ public class UserController {
         Role role = roleService.findByName("ROLE_USER");
         roleSet.add(role);
         user.setRoles(roleSet);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.save(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -79,11 +87,12 @@ public class UserController {
     @PutMapping("/edit/{id}")
     public ResponseEntity<User> edit(@PathVariable Long id, @RequestBody User user){
         Optional<User> userOptional = userService.findById(id);
-        if (!userOptional.isPresent()){
+        if (!userOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        user.setRoles(userOptional.get().getRoles());
         user.setId(userOptional.get().getId());
+        String pw = userOptional.get().getPassword();
+        user.setPassword(pw);
         user.setUsername(userOptional.get().getUsername());
         user.setImage(userOptional.get().getImage());
         userService.save(user);
