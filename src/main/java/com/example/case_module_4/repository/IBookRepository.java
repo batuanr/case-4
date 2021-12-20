@@ -23,6 +23,7 @@ public interface IBookRepository extends JpaRepository<Book,Long> {
 
    @Query (value = "update book set count_borrowed=count_borrowed+1,quantity=quantity-1 where id= :id ",nativeQuery = true)
    void borrowBook(@Param("id") Long id);
+
    @Query(value = "update book set quanttity=quantity+1 where id= :id",nativeQuery = true)
    void repayBook(@Param("id") Long id);
 
