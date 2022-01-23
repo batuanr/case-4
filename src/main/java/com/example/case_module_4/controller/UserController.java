@@ -94,6 +94,7 @@ public class UserController {
         String pw = userOptional.get().getPassword();
         user.setPassword(pw);
         user.setUsername(userOptional.get().getUsername());
+        user.setRoles(userOptional.get().getRoles());
         user.setImage(userOptional.get().getImage());
         userService.save(user);
         return new ResponseEntity<>(HttpStatus.OK);
