@@ -66,7 +66,6 @@ public class BookController {
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
-
             book1.setImage(file1);
             bookService.save(book1);
             String fileUpload=env.getProperty("upload.path");
